@@ -1,6 +1,5 @@
 import argparse
 from collections import defaultdict
-
 import bs4
 import pandas as pd
 import requests
