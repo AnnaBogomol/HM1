@@ -45,7 +45,7 @@ def main():
     # поиск элемента карточки
     card = soup.find('div', {'class': 'event'})
     # поиск пар классов (nameEvent, dataEvent) и итерация по каждой паре
-    for k, v in zip(card.find_all(None, {'class': 'nameEvent'}), 
+    for k, v in zip(card.find_all(None, {'class': 'nameEvent'}),
                     card.find_all(None, {'class': 'dataEvent'})):
         # поиск всех строк данного элемента
         keys = list(k.strings)
