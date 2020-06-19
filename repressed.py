@@ -3,7 +3,6 @@ from collections import defaultdict
 import bs4
 import pandas as pd
 import requests
-
 values_to_find = [
     'дата рождения',
     'место рождения',
@@ -19,11 +18,13 @@ values_to_find = [
 
 def main():
     # Сбор информации из аргументов командной строки
-    parser = argparse.ArgumentParser(description='Сбор информации о репрессированных')
+    parser = argparse.ArgumentParser(description='Сбор информации о '
+                                     'репрессированных')
     parser.add_argument('link', help='ссылка на человека')
     parser.add_argument(
         '--output',
-        help='файл для сохранения результата(файл перезапишется!)(по умолчанию result.xlsx)',
+        help='файл для сохранения результата(файл перезапишется!)'
+        '(по умолчанию result.xlsx)',
         type=argparse.FileType('wb+'),
         default='result.xlsx'
     )
@@ -44,7 +45,8 @@ def main():
     # поиск элемента карточки
     card = soup.find('div', {'class': 'event'})
     # поиск пар классов (nameEvent, dataEvent) и итерация по каждой паре
-    for k, v in zip(card.find_all(None, {'class': 'nameEvent'}), card.find_all(None, {'class': 'dataEvent'})):
+    for k, v in zip(card.find_all(None, {'class': 'nameEvent'}), 
+                    card.find_all(None, {'class': 'dataEvent'})):
         # поиск всех строк данного элемента
         keys = list(k.strings)
         values = list(v.strings)
@@ -81,7 +83,8 @@ def main():
             # разделяем ; все значения
             formatted_result[key] = ';'.join(value)
 
-    df_existing = pd.DataFrame(columns=values_to_find).append([formatted_result], sort=True)
+    df_existing = pd.DataFrame(columns=values_to_find)
+    .append([formatted_result], sort=True)
 
     # запись в файл
     df_existing.to_excel(args.output, index=False)
